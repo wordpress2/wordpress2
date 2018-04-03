@@ -31,8 +31,6 @@ try {
 	App::Run();
 
 } catch ( Throwable $e ){
-	$file    = $e->getFile();
-	$line    = $e->getLine();
-	$message = $e->getMessage();
-	exit("$file #$line, $message");
+	Notice::Set($e);
+	require(__DIR__.'/bootstrap/op/failed.phtml');
 }

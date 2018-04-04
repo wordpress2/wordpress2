@@ -12,7 +12,7 @@
 //	.htaccess file has not been initialized.	//
 global $_OP;
 if(!isset($_OP)){
-	include(__DIR__.'/assets/app.php');
+	include(__DIR__.'/asset/app.php');
 	return;
 }
 //	You should leave this logic. It's for you.	//

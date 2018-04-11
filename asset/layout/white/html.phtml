@@ -1,0 +1,41 @@
+<?php
+/**
+ * layout-white:/app/layout/white/html.phtml
+ *
+ * @creation  2016-11-22
+ * @version   1.0
+ * @package   layout-white
+ * @author    Tomoaki Nagahara <tomoaki.nagahara@gmail.com>
+ * @copyright Tomoaki Nagahara All right reserved.
+ */
+?>
+<!doctype html>
+<html lang="<?= Env::Lang() ?>">
+	<head>
+		<?php Template::Run('head.phtml') ?>
+	</head>
+	<body id="body" class="body">
+		<div id="head-area">
+			<?= Template::Run('header.phtml') ?>
+			<?= Template::Run('menu/top.phtml') ?>
+		</div>
+		<div id="body-area">
+			<div>
+				<!-- left menu -->
+				<?= Template::Run('menu/left.phtml') ?>
+			</div>
+			<div id="content-area" class="content-area">
+				<?= $content ?>
+			</div>
+			<div>
+				<!-- right menu -->
+				<?= Template::Run('menu/right.phtml') ?>
+			</div>
+		</div>
+		<div id="foot-area">
+			<?php Template::Run('menu/bottom.phtml') ?>
+			<?php Template::Run('footer.phtml') ?>
+		</div>
+		<?= Template::Run('google-analytics.phtml') ?>
+	</body>
+</html>

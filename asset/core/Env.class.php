@@ -80,21 +80,6 @@ class Env
 		return ifset(self::$_env[$key], $default);
 	}
 
-	/** Get transmitted MIME.
-	 *
-	 * @return string
-	 */
-	static function Mime()
-	{
-		$headers = headers_list();
-		foreach($headers as $header){
-			if( strpos($header, 'Content-type') === 0 ){
-				$pos = strpos($header, ';');
-				return substr($header, 14, $pos - 14);
-			}
-		}
-	}
-
 	/** Set environment value.
 	 *
 	 * @param string $key
@@ -115,5 +100,64 @@ class Env
 
 		//	...
 		return $result +1;
+	}
+
+	/** Get/Set lang.
+	 *
+	 * @param  string $lang
+	 * @return string $lang
+	 */
+	static function Lang($lang=null)
+	{
+		static $_lang;
+		if( $lang ){
+			$_lang = $lang;
+		}
+		return $_lang;
+	}
+
+	/** Get/Set charset.
+	 *
+	 * @param  string $charset
+	 * @return string $charset
+	 */
+	static function Charset($charset=null)
+	{
+		static $_charset = 'utf-8';
+		if( $charset ){
+			$_charset = $charset;
+		}
+		return $_charset;
+	}
+
+	/** Get/Set MIME
+	 *
+	 * @param  string $mime
+	 * @return string $mime
+	 */
+	static function Mime($mime=null)
+	{
+		static $_mime;
+		if( $mime ){
+			//	...
+			if( headers_sent($file, $line) ){
+				Notice::Set("Header has already sent. ($file, $line)");
+			}else{
+				//	...
+				$_mime = strtolower($mime);
+
+				//	...
+				$header = "Content-type: $mime";
+
+				//	...
+				if( $charset = Env::Charset()){
+					$header .= "; charset={$charset}";
+				}
+
+				//	...
+				header($header);
+			}
+		}
+		return $_mime;
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Layout.class.php
+ * unit-newworld:Layout.class.php
  *
  * @creation  2017-05-09
  * @version   1.0
@@ -71,21 +71,24 @@ class Layout
 		return $full_path;
 	}
 
-	/** Get/Set Layout execution.
+	/** Get/Set Layout directory.
 	 *
-	 * @param  $io
+	 * @param  string $path
+	 * @return string $path
 	 */
-	static function Execute($io=null)
+	static function Directory($path=null)
 	{
-		if( $io !== null ){
-			Env::Set(self::_EXECUTE_, $io);
+		if( $path ){
+			$path = rtrim($path, '/') . '/';
+			Env::Set(self::_DIRECTORY_, $path);
 		}
-		return Env::Get(self::_EXECUTE_);
+		return Env::Get(self::_DIRECTORY_);
 	}
 
 	/** Get/Set Layout name.
 	 *
-	 * @param  $io
+	 * @param  string $name
+	 * @return string $name
 	 */
 	static function Name($name=null)
 	{
@@ -95,15 +98,25 @@ class Layout
 		return Env::Get(self::_NAME_);
 	}
 
+	/** Get/Set Layout execution.
+	 *
+	 * @param  boolean $is
+	 * @return boolean $is
+	 */
+	static function Execute($io=null)
+	{
+		if( $io !== null ){
+			Env::Set(self::_EXECUTE_, $io);
+		}
+		return Env::Get(self::_EXECUTE_);
+	}
+
 	/** Execute layout.
 	 *
 	 * @param string $content
 	 */
-	static function Run($content)
+	static function Auto($content)
 	{
-		//	...
-		Http::Mime('text/html', true);
-
 		//	Search layout controller.
 		if( $file_path = self::_GetLayoutController() ){
 			//	Execute layout.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Template.class.php
+ * unit-newworld:Template.class.php
  *
  * @creation  2017-05-09
  * @version   1.0
@@ -23,16 +23,10 @@ class Template
 	 */
 	use OP_CORE;
 
-	/** Search to this template directory.
-	 *
-	 * @var string
-	 */
-	const _DIRECTORY_ = 'template-dir';
-
 	/** Return real file path from meta path.
 	 *
-	 * @param  string
-	 * @return string
+	 * @param  string $meta_path
+	 * @return string $real_path
 	 */
 	static function _GetTemplateFilePath($path)
 	{
@@ -46,20 +40,37 @@ class Template
 			return $path;
 		}
 
-		//	Search to in template directory.
-		if( $dir  = Env::Get(self::_DIRECTORY_) ){
-			$path = rtrim(ConvertPath($dir), '/').'/'.$path;
-			if( file_exists($path) ){
-				//	File was found.
-				return $path;
-			}
+		//	Get template directory.
+		if(!$dir = self::Directory() ){
+			Notice::Set("Has not been set template directory.");
+			return false;
+		}
+
+		//	Generate full path.
+		$path = $dir . $path;
+
+		//	Check file exists.
+		if(!file_exists($path) ){
+			Notice::Set("This file has not been found. ($path)");
+			return false;
 		}
 
 		//	...
-		Notice::Set("Does not exists this file path. ($path)");
+		return $path;
+	}
 
-		//	...
-		return '';
+	/** Get/Set template directory.
+	 *
+	 * @param  string $path
+	 * @return string $path
+	 */
+	static function Directory($path=null)
+	{
+		static $_directory;
+		if( $path ){
+			$_directory = rtrim(ConvertPath($path), '/').'/';
+		}
+		return $_directory;
 	}
 
 	/** Return executed file content.

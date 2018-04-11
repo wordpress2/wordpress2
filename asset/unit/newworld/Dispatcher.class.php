@@ -1,6 +1,6 @@
 <?php
 /**
- * Dispatcher.class.php
+ * unit-newworld:Dispatcher.class.php
  *
  * @creation  2017-05-09
  * @version   1.0
@@ -28,7 +28,7 @@ class Dispatcher
 	 *
 	 * @return string
 	 */
-	static function Run()
+	static function Auto()
 	{
 		//	Execute app's end point. (app's controller)
 		$route = Router::Get();

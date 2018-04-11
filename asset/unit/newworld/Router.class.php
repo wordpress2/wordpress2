@@ -1,6 +1,6 @@
 <?php
 /**
- * Router.class.php
+ * unit-newworld:Router.class.php
  *
  * @creation  2017-05-09
  * @version   1.0
@@ -110,8 +110,11 @@ class Router
 			}
 
 			//	...
-			if( file_exists($_OP[APP_ROOT].$path) ){
-				self::$_route[Router::_END_POINT_] = $_OP[APP_ROOT].$path;
+			$full_path = $_OP[APP_ROOT].$path;
+
+			//	...
+			if( file_exists($full_path) ){
+				self::$_route[Router::_END_POINT_] = $full_path;
 				break;
 			}
 

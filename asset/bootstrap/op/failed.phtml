@@ -10,9 +10,61 @@
 		<hr/>
 		<h1>The onepiece-framework bootstrap was failed.</h1>
 		<ol>
-			<?php while( $notice = Notice::Get() ): ?>
-			<li><?php echo $notice['message'] ?></li>
-			<?php endwhile; ?>
+			<?php
+			while( $notice = Notice::Get() ){
+			//	var_dump($notice);
+
+				//	...
+				echo '<li>';
+				echo $notice['message'];
+
+				//	...
+				echo '<ol>';
+				foreach( $notice['backtrace'] as $backtrace ){
+					$file = ifset($backtrace['file']);
+					$line = ifset($backtrace['line']);
+					$func = ifset($backtrace['function']);
+					$clss = ifset($backtrace['class']);
+					$type = ifset($backtrace['type']);
+					$args = ifset($backtrace['args']);
+					$join = [];
+					$json = null;
+
+					//	...
+					switch( $type ){
+						case '::':
+						case '->':
+							$order = $clss.$type.$func;
+							break;
+						default:
+							$order = $func;
+					}
+
+					//	...
+					if( $args === null ){
+						$json = 'null';
+					}else{
+						foreach( $args as $arg ){
+							switch( $type = gettype($arg) ){
+								case 'string':
+									$join[] = "\"$arg\"";
+									break;
+								default:
+									$join[] = $type;
+							}
+						}
+						$json = join(', ', $join);
+					}
+
+					//	...
+					echo "<li>{$file} #{$line} {$order}($json)</li>";
+				}
+				echo '</ol>';
+
+				//	...
+				echo "</li>";
+			}
+			?>
 		</ol>
 		<hr/>
 		<footer>

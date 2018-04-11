@@ -25,6 +25,13 @@ call_user_func(function(){
 			include(__DIR__.'/bootstrap/php/mbstring.phtml');
 		}
 
+		//	Reset application root.
+		global $_OP;
+		$_OP[APP_ROOT] = dirname(__DIR__).'/';
+
+		//	Reset entry point.
+		$_SERVER['SCRIPT_NAME'] = dirname($_SERVER['SCRIPT_NAME']);
+
 	} catch ( Throwable $e ){
 		$file    = $e->getFile();
 		$line    = $e->getLine();

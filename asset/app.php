@@ -13,6 +13,15 @@ try {
 	//	Bootstrap - Initialize onepiece-framework application.
 	require(__DIR__.'/bootstrap.php');
 
+	//	Set unit directory.
+	Unit::Directory(__DIR__.'/unit');
+
+	//	Load of the Unit of App.
+	Unit::Load('app');
+
+	//	Load of the NewWorld.
+	Unit::Load('newworld');
+
 	//	Include configuration file.
 	require(__DIR__.'/config.php');
 
@@ -21,14 +30,8 @@ try {
 		require(__DIR__.'/_config.php');
 	}
 
-	//	Set unit directory.
-	Unit::Directory(__DIR__.'/unit');
-
-	//	Load of the NewWorld.
-	Unit::Load('newworld');
-
 	//	Launch application.
-	App::Run();
+	App::Auto();
 
 } catch ( Throwable $e ){
 	Notice::Set($e);

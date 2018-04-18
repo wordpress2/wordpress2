@@ -9,6 +9,12 @@
  * @copyright Tomoaki Nagahara All right reserved.
  */
 
+/** namespace
+ *
+ * @created   2018-04-13
+ */
+namespace OP\UNIT\NEWWORLD;
+
 /** Router
  *
  * @creation  2015-01-30 --> 2016-11-26
@@ -22,7 +28,7 @@ class Router
 	/** trait.
 	 *
 	 */
-	use OP_CORE;
+	use \OP_CORE;
 
 	/** Use for route table's associative key name.
 	 *

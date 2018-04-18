@@ -9,6 +9,12 @@
  * @copyright Tomoaki Nagahara All right reserved.
  */
 
+/** namespace
+ *
+ * @created   2018-04-13
+ */
+namespace OP\UNIT\NEWWORLD;
+
 /** Dispatcher
  *
  * @creation  2017-02-15
@@ -22,7 +28,7 @@ class Dispatcher
 	/** trait
 	 *
 	 */
-	use OP_CORE;
+	use \OP_CORE;
 
 	/** Execute end-point.
 	 *
@@ -44,7 +50,7 @@ class Dispatcher
 			//	Execute end-point.
 			$content = Template::Get($route[Router::_END_POINT_]);
 		}catch( Exception $e ){
-			Notice::Set($e->getMessage(), $e->getTrace());
+			\Notice::Set($e->getMessage(), $e->getTrace());
 		}
 
 		//	Recovery current directory.

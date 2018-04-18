@@ -9,6 +9,12 @@
  * @copyright Tomoaki Nagahara All right reserved.
  */
 
+/** namespace
+ *
+ * @created   2018-04-13
+ */
+namespace OP\UNIT\NEWWORLD;
+
 /** Layout
  *
  * @creation  2017-02-14
@@ -22,7 +28,7 @@ class Layout
 	/** trait.
 	 *
 	 */
-	use OP_CORE;
+	use \OP_CORE;
 
 	/** Constants
 	 *
@@ -41,14 +47,14 @@ class Layout
 		//	Get layout directory.
 		if(!$layout_dir  = Env::Get(Layout::_DIRECTORY_)){
 			$message = "Has not been set layout directory.";
-			Notice::Set($message, debug_backtrace());
+			\Notice::Set($message, debug_backtrace());
 			return false;
 		}
 
 		//	Get layout name.
 		if(!$layout_name = Env::Get(Layout::_NAME_)){
 			$message = "Has not been set layout name.";
-			Notice::Set($message, debug_backtrace());
+			\Notice::Set($message, debug_backtrace());
 			return false;
 		}
 
@@ -63,7 +69,7 @@ class Layout
 			}else{
 				$message = "Does not exists layout directory. ($layout_name)";
 			}
-			Notice::Set($message, debug_backtrace());
+			\Notice::Set($message, debug_backtrace());
 			return false;
 		}
 

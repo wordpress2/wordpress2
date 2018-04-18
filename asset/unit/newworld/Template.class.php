@@ -9,6 +9,12 @@
  * @copyright Tomoaki Nagahara All right reserved.
  */
 
+/** namespace
+ *
+ * @created   2018-04-13
+ */
+namespace OP\UNIT\NEWWORLD;
+
 /** Template
  *
  * @creation  2017-02-09
@@ -21,7 +27,7 @@ class Template
 {
 	/** trait.
 	 */
-	use OP_CORE;
+	use \OP_CORE;
 
 	/** Return real file path from meta path.
 	 *
@@ -42,7 +48,7 @@ class Template
 
 		//	Get template directory.
 		if(!$dir = self::Directory() ){
-			Notice::Set("Has not been set template directory.");
+			\Notice::Set("Has not been set template directory.");
 			return false;
 		}
 
@@ -51,7 +57,7 @@ class Template
 
 		//	Check file exists.
 		if(!file_exists($path) ){
-			Notice::Set("This file has not been found. ($path)");
+			\Notice::Set("This file has not been found. ($path)");
 			return false;
 		}
 
@@ -83,7 +89,7 @@ class Template
 	{
 		//	...
 		if(!ob_start()){
-			Notice::Set("ob_start was failed.");
+			\Notice::Set("ob_start was failed.");
 			return;
 		}
 
@@ -104,7 +110,7 @@ class Template
 		try {
 			//	...
 			if(!$file_path){
-				Notice::Set("Has not been set file path. ($file_path)");
+				\Notice::Set("Has not been set file path. ($file_path)");
 				return;
 			}
 
@@ -120,7 +126,7 @@ class Template
 			if( $args ){
 				if(!$count = extract($args, null, null)){
 					$message = "Passed arguments is not an assoc array. (count=$count)";
-					Notice::Set($message, debug_backtrace());
+					\Notice::Set($message, debug_backtrace());
 				}
 			}
 
@@ -142,7 +148,7 @@ class Template
 			$temp['file'] = $e->getFile();
 			$temp['line'] = $e->getLine();
 			array_unshift($trace, $temp);
-			Notice::Set($e->getMessage(), $trace);
+			\Notice::Set($e->getMessage(), $trace);
 		}
 
 		//	...

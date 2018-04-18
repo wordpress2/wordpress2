@@ -22,7 +22,12 @@ class App
 	/** trait.
 	 *
 	 */
-	use OP_CORE;
+	use OP_CORE, OP_SESSION;
+
+	static private $_DISPATCHER_ = 'OP\UNIT\NEWWORLD\Dispatcher';
+	static private $_LAYOUT_	 = 'OP\UNIT\NEWWORLD\Layout';
+	static private $_ROUTER_	 = 'OP\UNIT\NEWWORLD\Router';
+	static private $_TEMPLATE_	 = 'OP\UNIT\NEWWORLD\Template';
 
 	/** Automatically run.
 	 *
@@ -30,16 +35,62 @@ class App
 	static function Auto()
 	{
 		//	Execute end-point.
-		$content = Dispatcher::Auto();
+		$content = self::$_DISPATCHER_::Auto();
 
 		//	Output to client.
-		if( Env::Get( Layout::_EXECUTE_ ) ){
+		if( self::$_LAYOUT_::Execute() ){
 			//	Do layout.
-			Layout::Auto($content);
+			self::$_LAYOUT_::Auto($content);
 		}else{
 			//	Do not layout.
 			echo $content;
 		}
+	}
+
+	/** Get SmartURL arguments.
+	 *
+	 * @return array $args
+	 */
+	static function Args()
+	{
+		return self::$_ROUTER_::Get()['args'];
+	}
+
+	static function Template($path, $args=null)
+	{
+		self::$_TEMPLATE_::Run($path, $args);
+	}
+
+	static function Layout($name=null)
+	{
+		//	...
+		switch( $type = gettype($name) ){
+			case 'boolean':
+				//	...
+				self::$_LAYOUT_::Execute($name);
+
+				//	...
+				if(!$name ){
+					self::$_LAYOUT_::Name('');
+				}
+				break;
+
+			case 'string':
+				//	...
+				self::$_LAYOUT_::Name($name);
+
+				//	...
+				if( $name ){
+					self::$_LAYOUT_::Execute(true);
+				}
+				break;
+
+			default:
+			//	D($type);
+		}
+
+		//	...
+		return self::$_LAYOUT_::Name();
 	}
 
 	/** Get/Set title.

@@ -1,0 +1,32 @@
+/**
+ * unit-dump:/dump.css
+ *
+ * @creation  2017-07-29
+ * @version   1.0
+ * @package   unit-dump
+ * @author    Tomoaki Nagahara <tomoaki.nagahara@gmail.com>
+ * @copyright Tomoaki Nagahara All right reserved.
+ */
+
+div.OP_DUMP {
+	margin-bottom:  0.1em;
+}
+
+div.OP_DUMP table,
+div.OP_DUMP th,
+div.OP_DUMP td {
+	border: 1px solid black;
+}
+
+div.OP_DUMP table {
+	border-collapse: collapse;
+}
+
+div.OP_DUMP th {
+	padding: 0.1em 0.3em;
+	cursor: pointer;
+}
+
+div.OP_DUMP td > span {
+	padding: 0.25em;
+}

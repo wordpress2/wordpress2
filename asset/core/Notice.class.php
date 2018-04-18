@@ -31,30 +31,6 @@ class Notice
 	 */
 	const _NAME_SPACE_ = 'STORE';
 
-	/** Dump of notice.
-	 *
-	 * @param array $notice
-	 */
-	static function Dump( $notice )
-	{
-		$mime = Env::Mime();
-		switch( $mime ){
-			case 'text/html':
-				echo '<div class="OP_NOTICE">';
-				echo json_encode($notice);
-				echo '</div>'."\r\n";
-				break;
-
-			case 'text/css':
-			case 'text/javascript':
-				echo "/* {$notice['message']} */".PHP_EOL;
-				break;
-
-			default:
-				echo PHP_EOL.$notice['message'].PHP_EOL;
-		}
-	}
-
 	/** Get notice array.
 	 *
 	 * @return array
@@ -99,14 +75,14 @@ class Notice
 		}
 
 		//	...
-		$key = Hasha1($message);
-		$timestamp = gmdate('Y-m-d H:i:s', time()+date('Z'));
+		$key		 = Hasha1($message);
+		$timestamp	 = gmdate('Y-m-d H:i:s', time()+date('Z'));
 
 		//	...
-		$session = self::Session(self::_NAME_SPACE_);
+		$session	 = self::Session(self::_NAME_SPACE_);
 
 		//	...
-		$reference = isset($session[$key]) ? $session[$key]: null;
+		$reference	 = isset($session[$key]) ? $session[$key]: null;
 
 		//	...
 		if( empty($reference) ){
@@ -126,75 +102,12 @@ class Notice
 		self::Session(self::_NAME_SPACE_, $session);
 	}
 
-	/** Callback of app shutdown.
+	/** Load notice unit.
 	 *
 	 */
 	static function Shutdown()
 	{
-		//	...
-		try {
-			//	...
-			if(!$is_admin = Env::isAdmin()){
-				//	...
-				if(!$to = Env::Get(Env::_ADMIN_MAIL_)){
-					echo '<p>Has not been set admin mail address.</p>'.PHP_EOL;
-					return;
-				}
-
-				//	...
-				if(!$from = Env::Get(Env::_MAIL_FROM_)){
-					$from = $to;
-				}
-
-				//	...
-				$file_path = ConvertPath('op:/Template/Notice/Sendmail.phtml');
-
-				//	...
-				if( file_exists($file_path) === false ){
-					print "<p>Does not file exists. ($file_path)</p>";
-					return;
-				}
-			}
-
-			//	...
-			$session = self::Session(self::_NAME_SPACE_);
-
-			//	...
-			self::Session(self::_NAME_SPACE_, null);
-
-			//	...
-			foreach( $session as $notice ){
-				if( $is_admin ){
-					self::Dump($notice);
-				}else{
-					if(!ob_start()){
-						echo '<p>"ob_start" was failed. (Notice::Shutdown)</p>'.PHP_EOL;
-						return;
-					}
-
-					//	...
-					include($file_path);
-
-					//	...
-					$content = ob_get_clean();
-
-					//	...
-					$subject = $notice['message'];
-
-					//	...
-					$mail = new EMail();
-					$mail->From($from);
-					$mail->To($to);
-					$mail->Subject($subject);
-					$mail->Content($content, 'text/html');
-					if(!$io = $mail->Send()){
-						return;
-					}
-				}
-			}
-		} catch ( Throwable $e ) {
-			echo '<p>'.$e->GetMessage().'</p>'.PHP_EOL;
-		}
+		Unit::Load('notice');
 	}
 }
 

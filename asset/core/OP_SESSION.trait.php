@@ -25,10 +25,11 @@ trait OP_SESSION
 	 * Separated from each class/object.
 	 * Static class and instantiated object to do the same behavior.
 	 *
-	 * @param string
-	 * @param reference
+	 * @param  string
+	 * @param  mixed
+	 * @return mixed
 	 */
-	static function &Session($key, $value=null)
+	static function Session($key, $value=null)
 	{
 		static $app_id;
 		if(!$app_id){

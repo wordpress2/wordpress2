@@ -91,4 +91,19 @@ trait OP_CORE
 	{
 
 	}
+
+	/** Store to static variable.
+	 *
+	 * @param  string $key
+	 * @param  mixed  $val
+	 * @return mixed  $val
+	 */
+	static private function _Store($key, $val=null)
+	{
+		static $_store;
+		if( $val !== null ){
+			$_store[$key] = $val;
+		}
+		return ifset($_store[$key]);
+	}
 }

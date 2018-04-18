@@ -43,7 +43,7 @@ trait OP_SESSION
 
 		//	...
 		if( func_num_args() === 2 ){
-			$_SESSION[_OP_NAME_SPACE_][$app_id][$class][$key] = $value;
+			$_SESSION[_OP_NAME_SPACE_][$app_id][$class][$key] = Escape($value);
 		}
 
 		//	...

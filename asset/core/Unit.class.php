@@ -151,6 +151,16 @@ class Unit
 	 */
 	static function Load($name)
 	{
+		static $_result;
+
+		//	...
+		$hash = Hasha1($name);
+
+		//	...
+		if( isset( $_result[$hash] ) ){
+			return $_result[$hash];
+		}
+
 		//	...
 		if(!$dir = Env::Get(self::_DIRECTORY_)){
 			$message = "Has not been set unit directory.\n".' Example: Env::Set(Unit::_DIRECTORY_, "/www/op/unit");';
@@ -190,6 +200,9 @@ class Unit
 		}
 
 		//	...
-		return include($path);
+		$_result[$hash] = include($path);
+
+		//	...
+		return $_result[$hash];
 	}
 }

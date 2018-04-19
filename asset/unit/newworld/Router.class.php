@@ -112,7 +112,7 @@ class Router
 
 			//	...
 			if( isset($dir) ){
-				array_unshift(self::$_route['args'], _EscapeString($dir));
+				array_unshift(self::$_route['args'], Escape($dir));
 			}
 
 			//	...

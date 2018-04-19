@@ -123,10 +123,20 @@ class Env
 	 */
 	static function Charset($charset=null)
 	{
-		static $_charset = 'utf-8';
-		if( $charset ){
+		static $_charset;
+
+		//	...
+		if( $_charset  ){
+			//	Alrady set.
+		}else if( $charset ){
+			//	Cant not override.
 			$_charset = $charset;
+		}else{
+			//	Initialized.
+			$_charset = 'utf-8';
 		}
+
+		//	...
 		return $_charset;
 	}
 

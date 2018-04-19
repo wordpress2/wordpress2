@@ -56,7 +56,7 @@ function _HandlerError($errno, $error, $file, $line, $context)
 	}
 }
 
-/** Catch to not caught error.
+/** Catch of uncaught error.
  *
  * @param Throwable $e
  */

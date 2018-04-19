@@ -46,7 +46,7 @@ include_once(__DIR__.'/OP_CORE.trait.php');
 /** Security: PHP_SELF has XSS risk.
  *
  */
-$_SERVER['PHP_SELF_XSS'] = _EscapeString($_SERVER['PHP_SELF']);
+$_SERVER['PHP_SELF_XSS'] = _EscapeString($_SERVER['PHP_SELF'], 'utf-8');
 $_SERVER['PHP_SELF'] = $_SERVER['SCRIPT_NAME'];
 
 /** OP_ROOT, APP_ROOT

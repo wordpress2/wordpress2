@@ -15,10 +15,20 @@
  */
 function _GetRootsPath()
 {
+	//	...
 	global $_OP;
+
+	//	...
 	if( class_exists('Unit', false) ){
 		$root['unit:/']= realpath(Env::Get(Unit::_DIRECTORY_));
 	}
+
+	//	...
+	if( isset($_OP['LAYOUT']) ){
+		$root['layout:/'] = $_OP['LAYOUT'];
+	}
+
+	//	...
 	$root['app:/'] = $_OP['APP_ROOT'];
 	$root['doc:/'] = $_OP['DOC_ROOT'];
 	$root['op:/']  = $_OP['OP_ROOT'];
@@ -115,22 +125,51 @@ function D()
 	}
 
 	//	...
-	Dump::Mark(func_get_args());
+	Dump::Mark();
 }
 
-/** Escape mixid value;
+/** Decode single string.
  *
- * @param  boolean|integer|string|array|object $var
- * @return boolean|integer|string|array|object
+ * @param  string $string
+ * @param  string $charset
+ * @return string $var
  */
-function Escape($var)
+function Decode($string, $charset=null)
 {
+	$charset = Env::Charset();
+	return html_entity_decode($string, ENT_QUOTES, $charset);
+}
+
+/** Encode mixed value.
+ *
+ * @param  mixed  $var
+ * @param  string $charset
+ * @return mixed  $var
+ */
+function Encode($var, $charset=null)
+{
+	return Escape($var, $charset);
+}
+
+/** Escape mixid value.
+ *
+ * @param  mixed $var
+ * @return mixed $var
+ */
+function Escape($var, $charset=null)
+{
+	//	...
+	if(!$charset ){
+		$charset = Env::Charset();
+	}
+
+	//	...
 	switch( $type = gettype($var) ){
 		case 'string':
-			return _EscapeString($var);
+			return _EscapeString($var, $charset);
 
 		case 'array':
-			$var = _EscapeArray($var);
+			$var = _EscapeArray($var, $charset);
 			break;
 
 		case 'object':
@@ -139,6 +178,8 @@ function Escape($var)
 
 		default:
 	}
+
+	//	...
 	return $var;
 }
 
@@ -147,11 +188,11 @@ function Escape($var)
  * @param  array $arr
  * @return array
  */
-function _EscapeArray($arr)
+function _EscapeArray($arr, $charset)
 {
 	$new = [];
 	foreach( $arr as $key => $var ){
-		$new[_EscapeString($key)] = Escape($var);
+		$new[_EscapeString($key, $charset)] = Escape($var, $charset);
 	}
 	return $new;
 }
@@ -161,9 +202,9 @@ function _EscapeArray($arr)
  * @param  string $var
  * @return string
  */
-function _EscapeString($var)
+function _EscapeString($var, $charset)
 {
-	return htmlentities($var, ENT_QUOTES, 'utf-8', false);
+	return htmlentities($var, ENT_QUOTES, $charset, false);
 }
 
 /** To hash

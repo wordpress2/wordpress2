@@ -42,10 +42,12 @@ class Autoloader
 		}
 
 		//	Which to class or trait.
-		if( strpos($class_name, 'OP_') === false ){
-			$file_name = "{$class_name}.class.php";
-		}else{
+		if( strpos($class_name, 'OP_') === 0 ){
 			$file_name = "{$class_name}.trait.php";
+		}else if( strpos($class_name, 'IF_') === 0 ){
+			$file_name = "{$class_name}.interface.php";
+		}else{
+			$file_name = "{$class_name}.class.php";
 		}
 
 		//	Generate full path.

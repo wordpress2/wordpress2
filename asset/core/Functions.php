@@ -236,6 +236,7 @@ function _EscapeArray($arr, $charset)
  */
 function _EscapeString($var, $charset)
 {
+	$var = str_replace("\0", "", $var);
 	return htmlentities($var, ENT_QUOTES, $charset, false);
 }
 

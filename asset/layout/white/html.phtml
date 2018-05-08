@@ -12,30 +12,30 @@
 <!doctype html>
 <html lang="<?= Env::Lang() ?>">
 	<head>
-		<?php Template::Run('head.phtml') ?>
+		<?php App::Template('head.phtml') ?>
 	</head>
 	<body id="body" class="body">
 		<div id="head-area">
-			<?= Template::Run('header.phtml') ?>
-			<?= Template::Run('menu/top.phtml') ?>
+			<?= App::Template('header.phtml') ?>
+			<?= App::Template('menu/top.phtml') ?>
 		</div>
 		<div id="body-area">
 			<div>
 				<!-- left menu -->
-				<?= Template::Run('menu/left.phtml') ?>
+				<?= App::Template('menu/left.phtml') ?>
 			</div>
 			<div id="content-area" class="content-area">
 				<?= $content ?>
 			</div>
 			<div>
 				<!-- right menu -->
-				<?= Template::Run('menu/right.phtml') ?>
+				<?= App::Template('menu/right.phtml') ?>
 			</div>
 		</div>
 		<div id="foot-area">
-			<?php Template::Run('menu/bottom.phtml') ?>
-			<?php Template::Run('footer.phtml') ?>
+			<?php App::Template('menu/bottom.phtml') ?>
+			<?php App::Template('footer.phtml') ?>
 		</div>
-		<?= Template::Run('google-analytics.phtml') ?>
+		<?= App::Template('google-analytics.phtml') ?>
 	</body>
 </html>

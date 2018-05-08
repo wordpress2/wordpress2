@@ -19,15 +19,15 @@ if(!isset($_OP)){
 /***********************************************/
 
 //	Get route table.
-$route = Router::Get();
+$args = App::Args();
 
 //	Checking 404 page.
-if( count($route['args']) ){
-	//	Non existent page.
-	Template::Run('404.php');
-}else{
+if( count($args) === 0 ){
 	//	Access is top page.
 	//	Welcome page is sample page
 	//	 --> ./asset/template/welcome.phtml
-	Template::Run('welcome.phtml');
+	App::Template('welcome.phtml');
+}else{
+	//	Non existent page.
+	App::Template('404.php');
 }

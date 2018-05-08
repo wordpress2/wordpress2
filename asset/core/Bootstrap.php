@@ -61,4 +61,3 @@ $_OP[DOC_ROOT] = rtrim($_SERVER['DOCUMENT_ROOT'], '/').'/';
  *
  */
 include(__DIR__.'/Autoloader.class.php');
-spl_autoload_register('Autoloader::Autoload',true,true);

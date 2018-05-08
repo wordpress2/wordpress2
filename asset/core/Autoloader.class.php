@@ -59,3 +59,8 @@ class Autoloader
 		}
 	}
 }
+
+/** Register autoload.
+ *
+ */
+spl_autoload_register('Autoloader::Autoload',true,true);

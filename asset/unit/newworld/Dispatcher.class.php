@@ -50,7 +50,7 @@ class Dispatcher
 			//	Execute end-point.
 			$content = Template::Get($route[Router::_END_POINT_]);
 		}catch( Exception $e ){
-			\Notice::Set($e->getMessage(), $e->getTrace());
+			\Notice::Set($e);
 		}
 
 		//	Recovery current directory.

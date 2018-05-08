@@ -80,6 +80,9 @@ class Layout
 		if( $path ){
 			$path = ConvertPath($path);
 			$path = rtrim($path, '/') . '/';
+
+			//	...
+			_GetRootsPath('layout', $path);
 		}
 
 		//	...
@@ -94,8 +97,12 @@ class Layout
 	static function Name($name=null)
 	{
 		if( $name ){
-			global $_OP;
-			$_OP['LAYOUT'] = self::Directory() . $name . '/';
+			//	...
+			$dir = self::Directory();
+
+			//	...
+			$list = _GetRootsPath('layout', $dir . $name);
+
 		}else if( $name === false ){
 
 		}

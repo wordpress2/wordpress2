@@ -222,10 +222,21 @@ function Escape($var, $charset=null)
  */
 function _EscapeArray($arr, $charset='utf-8')
 {
+	//	...
 	$new = [];
+
+	//	...
 	foreach( $arr as $key => $var ){
-		$new[_EscapeString($key, $charset)] = Escape($var, $charset);
+		//	Escape index key in case of string.
+		if( is_string($key) ){
+			$key = _EscapeString($key, $charset);
+		}
+
+		//	Escape value.
+		$new[$key] = Escape($var, $charset);
 	}
+
+	//	...
 	return $new;
 }
 

@@ -9,6 +9,12 @@
  * @copyright Tomoaki Nagahara All right reserved.
  */
 
+/** namespace
+ *
+ * @created   2018-04-20
+ */
+namespace OP\UNIT;
+
 /** Dump
  *
  * @creation  2018-04-13
@@ -22,7 +28,7 @@ class Dump
 	/** trait
 	 *
 	 */
-	use OP_CORE;
+	use \OP_CORE;
 
 	/** Convert to json from array.
 	 *
@@ -32,8 +38,6 @@ class Dump
 	{
 		$json = json_encode($obj);
 		$json = htmlentities($json, ENT_NOQUOTES, 'utf-8');
-		//	$json = str_replace(['&lt;','&gt;'], ['＜','＞'], $json);
-		$json = str_replace(['&'], ['&amp;'], $json);
 		return $json;
 	}
 
@@ -42,14 +46,18 @@ class Dump
 	 */
 	static function Mark()
 	{
-		//	Get trace.
-		$trace = debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT || DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
+		/**
+		 * DEBUG_BACKTRACE_PROVIDE_OBJECT : Provide current object property.
+		 * DEBUG_BACKTRACE_IGNORE_ARGS    : Ignore function or method arguments.
+		 */
+		$trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
 
 		//	Arguments.
-		$args = $trace['args'];
+	//	$args = $trace['args'];
+		$args = func_get_args()[0];
 
 		//	...
-		switch( $mime = Env::Mime() ){
+		switch( $mime = \Env::Mime() ){
 			case 'text/css':
 				self::MarkCss($args, $trace);
 				break;
@@ -66,7 +74,7 @@ class Dump
 			case 'text/html':
 			default:
 				//	...
-				if( Unit::Load('webpack') ){
+				if( \Unit::Load('webpack') ){
 					//	...
 					\OP\UNIT\WebPack::Js(
 					[__DIR__.'/mark',

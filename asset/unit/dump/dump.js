@@ -16,6 +16,13 @@ if( $OP === undefined ){
 (function(){
 	//	...
 	$OP.Dump = function(div){
+		//	...
+		if( $OP.Arg === undefined ){
+			console.error('The $OP global variable has not been initialized.');
+			return;
+		}
+
+		//	...
 		var json = JSON.parse(div.innerText);
 		var dump = table(json);
 		div.innerText = '';

@@ -184,8 +184,9 @@ function Encode($var, $charset=null)
 
 /** Escape mixid value.
  *
- * @param  mixed $var
- * @return mixed $var
+ * @param  mixed  $var
+ * @param  string $charset
+ * @return mixed  $var
  */
 function Escape($var, $charset=null)
 {
@@ -204,7 +205,7 @@ function Escape($var, $charset=null)
 			break;
 
 		case 'object':
-			Notice::Set("Objects are not yet supported.");
+			$var = get_class($var);
 			break;
 
 		default:

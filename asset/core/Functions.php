@@ -11,27 +11,42 @@
 
 /** Return meta root path array.
  *
+ * @param  string $meta
+ * @param  string $path
  * @return array
  */
-function _GetRootsPath()
+function _GetRootsPath($meta=null, $path=null)
 {
 	//	...
-	global $_OP;
+	static $root;
 
 	//	...
-	if( class_exists('Unit', false) ){
-		$root['unit:/']= realpath(Env::Get(Unit::_DIRECTORY_));
+	if(!$root or ($meta and $path) ){
+		//	...
+		global $_OP;
+
+		//	...
+		if( $meta and $path ){
+			//	...
+			$temp = strtoupper($meta) . '_ROOT';
+
+			//	...
+			$_OP[$temp] = $path;
+		}
+
+		//	...
+		$root = [];
+
+		//	...
+		foreach( $_OP as $key => $val ){
+			list($key1, $key2) = explode('_', $key);
+			if( $key2 === 'ROOT' ){
+				$root[ strtolower($key1) . ':/' ] = rtrim($val, '/').'/';
+			}
+		}
 	}
 
 	//	...
-	if( isset($_OP['LAYOUT']) ){
-		$root['layout:/'] = $_OP['LAYOUT'];
-	}
-
-	//	...
-	$root['app:/'] = $_OP['APP_ROOT'];
-	$root['doc:/'] = $_OP['DOC_ROOT'];
-	$root['op:/']  = $_OP['OP_ROOT'];
 	return $root;
 }
 

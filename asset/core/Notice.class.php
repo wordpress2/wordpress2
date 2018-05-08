@@ -62,16 +62,9 @@ class Notice
 			$backtrace = $e->getTrace();
 			$file      = $e->getFile();
 			$line      = $e->getLine();
-			$function  = null;
 			array_unshift($backtrace, ['file'=>$file, 'line'=>$line]);
 		}else{
 			$message   = $e;
-		}
-
-		//	...
-		if(!$backtrace ){
-			$backtrace = debug_backtrace();
-		//	array_shift($backtrace); Do not use for app world.
 		}
 
 		//	...
@@ -86,10 +79,11 @@ class Notice
 
 		//	...
 		if( empty($reference) ){
+			//	...
 			$reference['count']		 = 1;
-			$reference['message']	 = $message;
-			$reference['backtrace']	 = $backtrace;
 			$reference['created']	 = $timestamp;
+			$reference['message']	 = $message;
+			$reference['backtrace']	 = $backtrace ?? debug_backtrace(false);
 		}else{
 			$reference['count']		+= 1;
 			$reference['updated']	 = $timestamp;

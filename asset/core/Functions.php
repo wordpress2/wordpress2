@@ -151,14 +151,12 @@ function D()
 	}
 
 	//	...
-	if(!class_exists('Dump') ){
-		if(!Unit::Load('dump') ){
-			return;
-		}
+	if(!Unit::Load('dump') ){
+		return;
 	}
 
-	//	...
-	Dump::Mark();
+	//	Dump.
+	OP\UNIT\Dump::Mark(func_get_args());
 }
 
 /** Decode single string.

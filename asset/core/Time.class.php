@@ -57,23 +57,27 @@ class Time
 		return date($format, $time);
 	}
 
-	/** Initialize
+	/** Globalization - Automatically set timezone.
 	 *
+	 * @param boolean $g10n
 	 */
-	static function Init($timezone)
+	static function G10N()
 	{
-		//	Timezone - System
-		ini_set('date.timezone', $timezone);
+		$io = false;
 
-		//	Timezone - user land
+		//	...
 		if( function_exists('geoip_db_avail') and geoip_db_avail(GEOIP_COUNTRY_EDITION) ){
 			$host = Env::isLocalhost() ? 'yahoo.co.jp': $_SERVER['REMOTE_ADDR'];
-			$temp = geoip_record_by_name($host);
-			$timezone = geoip_time_zone_by_country_and_region($temp['country_code'], $temp['region']);
+			if( $temp = geoip_record_by_name($host) ){
+				if( $timezone = geoip_time_zone_by_country_and_region($temp['country_code'], $temp['region']) ){
+					if( self::Timezone($timezone) ){
+						$io = true;
+					}
+				}
+			}
 		}
 
-		//	Timezone - user land
-		Time::Timezone($timezone);
+		return $io;
 	}
 
 	/** Return date. (not include time)

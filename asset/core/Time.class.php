@@ -13,8 +13,7 @@
  * @copyright Tomoaki Nagahara All right reserved.
  */
 
-/**
- * Time
+/** Time
  *
  * @creation  2016-11-17
  * @version   1.0
@@ -119,6 +118,9 @@ class Time
 			$_timezone = $timezone;
 
 			//	...
+		//	ini_set('date.timezone', $timezone);
+
+			//	...
 			return date_default_timezone_set($timezone);
 		}else{
 			return date_default_timezone_get();
@@ -150,13 +152,10 @@ class Time
 		//	...
 		if(!self::$_time){
 			self::$_time = strtotime( gmdate('Y-m-d H:i:s') );
-			if(!$gmt ){
-				self::$_time += date('Z');
-			}
 		}
 
 		//	...
-		return self::$_time;
+		return $gmt ? self::$_time: self::$_time + date('Z');
 	}
 
 	/** Set frozen time.

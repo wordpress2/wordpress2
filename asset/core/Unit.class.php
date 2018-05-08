@@ -14,10 +14,19 @@
  *
  * <pre>
  * //	Set unit directory.
- * Env::Set(Unit::_DIRECTORY_, '/www/op/7/unit/');
+ * Unit::Director('app:/asset/unit');
  *
- * //	Factory
- * $obj = Unit::Factory('UnitName');
+ * //	Get instance.
+ * $obj = Unit::Instance('UnitName');
+ *
+ * //	Get singleton instance.
+ * $obj = Unit::Singleton('UnitName');
+ *
+ * //	Load static class.
+ * Unit::Load('unitname');
+ *
+ * //	Use static class.
+ * $val = OP\UNIT\NAME::Get();
  * </pre>
  *
  * @creation  2016-11-28
@@ -33,32 +42,18 @@ class Unit
 	 */
 	use OP_CORE;
 
-	/** Search directory.
-	 *
-	 * @var string
-	 */
-	const _DIRECTORY_ = 'unit-dir';
-
-	/** Repository
-	 *
-	 * @var string
-	 */
-	const _REPOSITORY_ = 'https://github.com/onepiece-framework/';
-
-	/** Pooling of object. (singleton)
-	 *
-	 * @var array
-	 */
-	static private $_pool;
-
 	/** Get/Set unit directory.
 	 *
-	 * @param  string|null         $dir
-	 * @return string|null|boolean $dir
+	 * @param  null|string         $dir
+	 * @return null|string|boolean $dir
 	 */
 	static function Directory($dir=null)
 	{
+		static $_dir;
+
+		//	...
 		if( $dir ){
+			//	...
 			if( strpos($dir, ':') ){
 				$dir = rtrim(ConvertPath($dir), '/').'/';
 			}
@@ -66,83 +61,62 @@ class Unit
 			//	...
 			if(!file_exists($dir)){
 				$message = "Does not exists unit directory. ($dir)";
-				Notice::Set($message, debug_backtrace());
+				Notice::Set($message);
 				return false;
 			}
 
 			//	...
-			Env::Set(self::_DIRECTORY_, $dir);
+			$_dir = $dir;
 		}
 
 		//	...
-		return $dir ? null: Env::Get(self::_DIRECTORY_);
+		return $_dir;
 	}
 
-	/** Return instance. (singleton)
+	/** Return new instance.
 	 *
 	 * @param  string $name
-	 * @return boolean|object
+	 * @return object
 	 */
-	static function Factory($name)
+	static function Instance($name)
 	{
-		//	...
-		if( isset( self::$_pool[$name] ) ){
-			return self::$_pool[$name];
-		}
-
 		//	...
 		if(!self::Load($name)){
 			return false;
 		}
 
-		//	Instantiate.
-		self::$_pool[$name] = new $name();
-		return self::$_pool[$name];
+		//	...
+		try{
+			//	Generate name space path.
+			$path = '\OP\UNIT\\'.$name;
+
+			//	Instantiate.
+			return new $path();
+
+		}catch( Throwable $e ){
+			Notice::Set($e);
+		}
 	}
 
-	/** Fetch git repository from github.
+	/** Return already instantiated instance.
 	 *
 	 * @param  string $name
-	 * @return boolean
+	 * @return boolean|object
 	 */
-	static function Fetch($name)
+	static function Singleton($name)
 	{
-		//	...
-		$save_dir = getcwd();
+		static $_pool;
 
 		//	...
-		if(!$unit_dir = Env::Get(self::_DIRECTORY_)){
-			return false;
+		if( isset( $_pool[$name] ) ){
+			return $_pool[$name];
 		}
 
-		//	...
-		$unit_dir = ConvertPath($unit_dir);
+		//	Instantiate.
+		$_pool[$name] = self::Instance($name);
 
 		//	...
-		chdir($unit_dir);
-
-		//	...
-		$command = 'git clone '. self::_REPOSITORY_ ."unit-{$name}.git $name";
-		$return = exec($command, $output, $status);
-
-		//	...
-		chdir($save_dir);
-
-		//	...
-		switch( ifset($status, 0) ){
-			case 0: // successful
-				break;
-
-			case 128:
-				$status = 'Permission denied';
-				break;
-
-			default:
-				Notice::Set("Command execution has failed. ($status, $command)");
-		}
-
-		//	...
-		return $status === 0 ? true: false;
+		return $_pool[$name];
 	}
 
 	/** Load of unit controller.
@@ -154,6 +128,9 @@ class Unit
 		static $_result;
 
 		//	...
+		$name = strtolower($name);
+
+		//	...
 		$hash = Hasha1($name);
 
 		//	...
@@ -162,9 +139,9 @@ class Unit
 		}
 
 		//	...
-		if(!$dir = Env::Get(self::_DIRECTORY_)){
-			$message = "Has not been set unit directory.\n".' Example: Env::Set(Unit::_DIRECTORY_, "/www/op/unit");';
-			Notice::Set($message, debug_backtrace());
+		if(!$dir = self::Directory() ){
+			$message = "Has not been set unit directory.\n".' Example: Unit::Directory("app:/asset/unit");';
+			Notice::Set($message);
 			return false;
 		}
 
@@ -175,18 +152,16 @@ class Unit
 		//	...
 		if(!file_exists($dir)){
 			$message = "Does not exists unit directory. ($dir)";
-			Notice::Set($message, debug_backtrace());
+			Notice::Set($message);
 			return false;
 		}
 
 		//	...
 		if(!file_exists("{$dir}/{$name}")){
 			//	...
-			if(!self::Fetch($name) ){
-				$message = "Does not exists this unit. ($dir/$name)";
-				Notice::Set($message, debug_backtrace());
-				return false;
-			}
+			$message = "Does not exists this unit. ($dir/$name)";
+			Notice::Set($message);
+			return false;
 		}
 
 		//	...
@@ -195,7 +170,7 @@ class Unit
 		//	...
 		if(!file_exists($path)){
 			$message = "Does not exists unit controller. ({$name}/index.php)";
-			Notice::Set($message, debug_backtrace());
+			Notice::Set($message);
 			return false;
 		}
 

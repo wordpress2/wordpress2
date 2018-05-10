@@ -12,8 +12,6 @@
 		<ol>
 			<?php
 			while( $notice = Notice::Get() ){
-			//	var_dump($notice);
-
 				//	...
 				echo '<li>';
 				echo $notice['message'];
@@ -28,7 +26,7 @@
 					$type = ifset($backtrace['type']);
 					$args = ifset($backtrace['args']);
 					$join = [];
-					$json = null;
+					$argument = null;
 
 					//	...
 					switch( $type ){
@@ -42,22 +40,28 @@
 
 					//	...
 					if( $args === null ){
-						$json = 'null';
+						$argument = 'null';
 					}else{
 						foreach( $args as $arg ){
 							switch( $type = gettype($arg) ){
 								case 'string':
 									$join[] = "\"$arg\"";
 									break;
+
+								case 'array':
+									$count  = count($arg);
+									$join[] = "array($count)";
+									break;
+
 								default:
 									$join[] = $type;
 							}
 						}
-						$json = join(', ', $join);
+						$argument = join(', ', $join);
 					}
 
 					//	...
-					echo "<li>{$file} #{$line} {$order}($json)</li>";
+					echo "<li>{$file} #{$line} {$order}($argument)</li>";
 				}
 				echo '</ol>';
 

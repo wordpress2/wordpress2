@@ -118,6 +118,10 @@ class Env
 
 	/** Get/Set charset.
 	 *
+	 * This charset is end user land charset.
+	 * For developers charset is not yet consider.
+	 * Source code is always UTF-8.
+	 *
 	 * @param  string $charset
 	 * @return string $charset
 	 */

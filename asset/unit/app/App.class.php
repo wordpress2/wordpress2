@@ -24,7 +24,7 @@ class App
 	 */
 	use OP_CORE, OP_SESSION;
 
-	static private $_DISPATCHER_ = 'OP\UNIT\NEWWORLD\Dispatcher';
+	static private $_DISPATCH_	 = 'OP\UNIT\NEWWORLD\Dispatch';
 	static private $_LAYOUT_	 = 'OP\UNIT\NEWWORLD\Layout';
 	static private $_ROUTER_	 = 'OP\UNIT\NEWWORLD\Router';
 	static private $_TEMPLATE_	 = 'OP\UNIT\NEWWORLD\Template';
@@ -35,16 +35,10 @@ class App
 	static function Auto()
 	{
 		//	Execute end-point.
-		$content = self::$_DISPATCHER_::Auto();
+		$content = self::$_DISPATCH_::Get();
 
-		//	Output to client.
-		if( self::$_LAYOUT_::Execute() ){
-			//	Do layout.
-			self::$_LAYOUT_::Auto($content);
-		}else{
-			//	Do not layout.
-			echo $content;
-		}
+		//	The content is wrapped in the Layout.
+		echo self::$_LAYOUT_::Get($content);
 	}
 
 	/** Get SmartURL arguments.

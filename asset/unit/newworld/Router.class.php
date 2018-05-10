@@ -1,6 +1,6 @@
 <?php
 /**
- * unit-newworld:Router.class.php
+ * unit-newworld:/Router.class.php
  *
  * @creation  2017-05-09
  * @version   1.0
@@ -112,7 +112,7 @@ class Router
 
 			//	...
 			if( isset($dir) ){
-				array_unshift(self::$_route['args'], Escape($dir));
+				array_unshift(self::$_route['args'], _EscapeString($dir));
 			}
 
 			//	...

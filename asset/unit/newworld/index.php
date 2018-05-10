@@ -1,6 +1,6 @@
 <?php
 /**
- * unit-newworld:index.php
+ * unit-newworld:/index.php
  *
  * The NewWorld is new world.
  *
@@ -11,7 +11,7 @@
  * @copyright Tomoaki Nagahara All right reserved.
  */
 //	...
-foreach(['Dispatcher','Layout','Router','Template'] as $name){
+foreach(['Dispatch','Layout','Router','Template'] as $name){
 	$path = __DIR__."/{$name}.class.php";
 	if( file_exists($path) ){
 		include($path);

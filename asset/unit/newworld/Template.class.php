@@ -1,6 +1,6 @@
 <?php
 /**
- * unit-newworld:Template.class.php
+ * unit-newworld:/Template.class.php
  *
  * @creation  2017-05-09
  * @version   1.0
@@ -77,7 +77,7 @@ class Template
 			$_directory = rtrim(ConvertPath($path), '/').'/';
 		}
 		return $_directory;
-	}
+	} // Directory
 
 	/** Return executed file content.
 	 *

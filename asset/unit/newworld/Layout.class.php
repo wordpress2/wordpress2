@@ -1,6 +1,6 @@
 <?php
 /**
- * unit-newworld:Layout.class.php
+ * unit-newworld:/Layout.class.php
  *
  * @creation  2017-05-09
  * @version   1.0
@@ -69,6 +69,16 @@ class Layout
 		return $full_path;
 	}
 
+	/** Get/Set Layout execution.
+	 *
+	 * @param  boolean $execute
+	 * @return boolean $execute
+	 */
+	static function Execute($io=null)
+	{
+		return self::_Store(__METHOD__, $io);
+	}
+
 	/** Get/Set Layout directory.
 	 *
 	 * @param  string $path
@@ -111,26 +121,24 @@ class Layout
 		return self::_Store(__METHOD__, $name);
 	}
 
-	/** Get/Set Layout execution.
+	/** The content is wrapped in the Layout.
 	 *
-	 * @param  boolean $execute
-	 * @return boolean $execute
+	 * @param  string $content
+	 * @return string $content
 	 */
-	static function Execute($execute=null)
+	static function Get($content)
 	{
-		return self::_Store(__METHOD__, $execute);
-	}
-
-	/** Execute layout.
-	 *
-	 * @param string $content
-	 */
-	static function Auto($content)
-	{
-		//	Search layout controller.
-		if( $file_path = self::_GetLayoutController() ){
-			//	Execute layout.
-			Template::Run($file_path, ['content'=>$content]);
+		//	Do you want to run Layout?
+		if(!self::Execute()){
+			return $content;
 		}
+
+		//	Search layout controller.
+		if(!$file_path = self::_GetLayoutController() ){
+			return $content;
+		}
+
+		//	The content is wrapped in the Layout.
+		return Template::Get($file_path, ['content'=>$content]);
 	}
 }

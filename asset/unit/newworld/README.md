@@ -1,15 +1,27 @@
 The NewWorld is a new world!!
 ===
 
-Classes
+## Classes
 
- * Router
-	Calculate of end-point from URL. In a general framework, an end-point is called an action.
- * Dispatcher
+ * Router<br/>
+	Calculate of end-point from URL. In a general framework, an end-point is called an controller.
+ * Dispatcher<br/>
 	Run the end-point.
- * Template
+ * Template<br/>
 	Run the Template file.
- * Layout
+ * Layout<br/>
 	Run the Layout. Layout is the outer frame of the entire site.
- * Http
-	Abstraction of HTTP communication.
+
+## How to use
+
+``` index.php
+<?php
+//	Use namespace.
+use OP\UNIT\NEWWORLD;
+
+//	Get content of end-point. (end-point is executed)
+$content = Dispatch::Get();
+
+//	The content is wrapped in the Layout.
+echo Layout::Get($content);
+```

@@ -23,11 +23,11 @@ try {
 	Unit::Load('newworld');
 
 	//	Include configuration file.
-	require(__DIR__.'/config.php');
+	include(__DIR__.'/config.php');
 
 	//	Include private configuration file.
 	if( file_exists(__DIR__.'/_config.php') ){
-		require(__DIR__.'/_config.php');
+		include(__DIR__.'/_config.php');
 	}
 
 	//	Launch application.

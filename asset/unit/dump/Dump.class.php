@@ -30,6 +30,37 @@ class Dump
 	 */
 	use \OP_CORE;
 
+	/** Escape variable.
+	 *
+	 * @param array &$args
+	 */
+	static function _Escape(&$args)
+	{
+		foreach( $args as &$arg ){
+			switch( $type = gettype($arg) ){
+				case 'array':
+					self::_Escape($arg);
+					break;
+
+				case 'object':
+					$name = get_class($arg);
+					$arg  = "object($name)";
+					break;
+
+				case 'resource':
+					$type = get_resource_type($arg);
+					$arg  = "resource(type:$type)";
+					break;
+
+				case 'unknown type':
+					$arg  = $type;
+					break;
+
+				default:
+			}
+		}
+	}
+
 	/** Convert to json from array.
 	 *
 	 * @param array $obj
@@ -53,8 +84,10 @@ class Dump
 		$trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
 
 		//	Arguments.
-	//	$args = $trace['args'];
 		$args = func_get_args()[0];
+
+		//	...
+		self::_Escape($args);
 
 		//	...
 		switch( $mime = \Env::Mime() ){

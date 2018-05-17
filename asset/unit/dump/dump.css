@@ -50,3 +50,7 @@ div.OP_DUMP td > table > tr:last-child > th,
 div.OP_DUMP td > table > tr:last-child > td {
 	border-bottom-width: 0;
 }
+
+div.OP_DUMP th {
+	width: 1em;
+}
